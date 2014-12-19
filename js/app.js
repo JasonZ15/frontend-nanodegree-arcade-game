@@ -19,9 +19,9 @@ Enemy.prototype.update = function(dt) {
     this.x = this.x + this.speed * dt;
     if(this.x > 505) {
       this.x = -200;
-      this.speed = Math.round(Math.random() * 300);
+      this.speed = Math.round(Math.random() * 400);
       while (this.speed < 80) {
-        this.speed = Math.round(Math.random() * 300);
+        this.speed = Math.round(Math.random() * 400);
       }
     }
 }
@@ -35,8 +35,8 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function() {
-  this.x = 0;
-  this.y = 0;
+  this.x = 200;
+  this.y = 400;
   this.sprite = 'images/char-boy.png';
 }
 Player.prototype.handleInput = function() {
@@ -53,16 +53,23 @@ Player.prototype.render = function() {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var allEnemies = [];
-var numEnemies = 3
-for (var i = 0; i < numEnemies; i++) {
-  var mySpd = 0;
-  while (mySpd < 80) {
-    var mySpd = Math.round(Math.random() * 300);
-  }
-  var myLn = i * 170;
-  allEnemies.push(new Enemy(mySpd, myLn));
-}
 var player = new Player();
+
+var instantiate = (function() {
+  var numEnemies = 3;
+  for (var i = 0; i < numEnemies; i++) {
+    var mySpd = 0;
+    while (mySpd < 80) {
+      var mySpd = Math.round(Math.random() * 400);
+    }
+    if (i === 0) {
+      var myLn = 50;
+    } else {
+      myLn = myLn + 90;
+    }
+    allEnemies.push(new Enemy(mySpd, myLn));
+  }
+})();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
