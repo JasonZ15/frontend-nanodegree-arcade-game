@@ -39,8 +39,21 @@ var Player = function() {
   this.y = 400;
   this.sprite = 'images/char-boy.png';
 }
-Player.prototype.handleInput = function() {
-
+Player.prototype.handleInput = function(keyCode) {
+  switch(keyCode) {
+    case 'left':
+      this.x = this.x - 100;
+      break;
+    case 'up':
+      this.y = this.y - 84;
+      break;
+    case 'right':
+      this.x = this.x + 100;
+      break;
+    case 'down':
+      this.y = this.y + 84;
+      break;
+  }
 }
 Player.prototype.update = function() {
 
@@ -73,7 +86,7 @@ var instantiate = (function() {
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function(e) {
+document.addEventListener('keydown', function(e) {
     var allowedKeys = {
         37: 'left',
         38: 'up',
