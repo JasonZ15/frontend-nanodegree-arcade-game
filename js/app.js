@@ -1,9 +1,9 @@
 // Enemies our player must avoid
-var Enemy = function(spd) {
+var Enemy = function(spd, ln) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
     this.x = -100;
-    this.y = 0;
+    this.y = ln;
     this.speed = spd;
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
@@ -17,7 +17,13 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x = this.x + this.speed * dt;
-    if(this.x > 505) {this.x = -100;}
+    if(this.x > 505) {
+      this.x = -200;
+      this.speed = Math.round(Math.random() * 300);
+      while (this.speed < 80) {
+        this.speed = Math.round(Math.random() * 300);
+      }
+    }
 }
 
 // Draw the enemy on the screen, required method for game
@@ -49,8 +55,12 @@ Player.prototype.render = function() {
 var allEnemies = [];
 var numEnemies = 3
 for (var i = 0; i < numEnemies; i++) {
-  var mySpd = Math.round(Math.random() * 300)
-  allEnemies.push(new Enemy(mySpd));
+  var mySpd = 0;
+  while (mySpd < 80) {
+    var mySpd = Math.round(Math.random() * 300);
+  }
+  var myLn = i * 170;
+  allEnemies.push(new Enemy(mySpd, myLn));
 }
 var player = new Player();
 
