@@ -2,8 +2,13 @@
 var Enemy = function(spd, ln) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
-    this.x = -100;
-    this.y = ln;
+    this.enemyLines = [50, 140, 230];
+    this.x = -300;
+    if (ln > 2) {
+      this.y = this.enemyLines[Math.floor(Math.random()*this.enemyLines.length)];
+    } else {
+      this.y = this.enemyLines[ln];
+    }
     this.speed = spd;
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
@@ -23,6 +28,7 @@ Enemy.prototype.update = function(dt) {
       while (this.speed < 80) {
         this.speed = Math.round(Math.random() * 400);
       }
+      this.y = this.enemyLines[Math.floor(Math.random()*this.enemyLines.length)];
     }
 }
 
@@ -69,18 +75,13 @@ var allEnemies = [];
 var player = new Player();
 
 var instantiate = (function() {
-  var numEnemies = 3;
+  var numEnemies = 4;
   for (var i = 0; i < numEnemies; i++) {
     var mySpd = 0;
     while (mySpd < 80) {
       var mySpd = Math.round(Math.random() * 400);
     }
-    if (i === 0) {
-      var myLn = 50;
-    } else {
-      myLn = myLn + 90;
-    }
-    allEnemies.push(new Enemy(mySpd, myLn));
+    allEnemies.push(new Enemy(mySpd, i));
   }
 })();
 
