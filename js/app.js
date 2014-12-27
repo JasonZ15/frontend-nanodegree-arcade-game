@@ -33,7 +33,14 @@ Enemy.prototype.update = function(dt) {
         this.speed = Math.round(Math.random() * 400);
       }
       this.y = this.enemyLines[Math.floor(Math.random()*this.enemyLines.length)];
-    }
+    };
+
+    if(!(this.top() > player.bottom() ||
+         this.left() > player.right() ||
+         this.bottom() < player.top() ||
+         this.right() < player.left())) {
+      player._killed = true;
+    };
 }
 
 // Draw the enemy on the screen, required method for game
@@ -71,9 +78,10 @@ Player.prototype.handleInput = function(keyCode) {
   }
 };
 Player.prototype.update = function() {
-  if(_killed) {
+  if(this._killed) {
     this.x = 200;
     this.y = 400;
+    this._killed = false;
   }
 };
 Player.prototype.render = function() {
@@ -97,9 +105,6 @@ var instantiate = (function() {
   }
 })();
 
-var checkCollisions = function() {
-
-}
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keydown', function(e) {
