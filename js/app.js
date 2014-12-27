@@ -8,7 +8,11 @@ var Enemy = function(spd, ln) {
       this.y = this.enemyLines[Math.floor(Math.random()*this.enemyLines.length)];
     } else {
       this.y = this.enemyLines[ln];
-    }
+    };
+    this.top = function() {return this.y + 79;};
+    this.right = function() {return this.x + 95;};
+    this.bottom = function() {return this.y + 138;};
+    this.left = function() {return this.x + 7;};
     this.speed = spd;
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
@@ -43,8 +47,13 @@ Enemy.prototype.render = function() {
 var Player = function() {
   this.x = 200;
   this.y = 400;
+  this.top = function() {return this.y + 64;};
+  this.right = function() {return this.x + 84;};
+  this.bottom = function() {return this.y + 138;};
+  this.left = function() {return this.x + 17;};
   this.sprite = 'images/char-boy.png';
-}
+  _killed = false;
+};
 Player.prototype.handleInput = function(keyCode) {
   switch(keyCode) {
     case 'left':
@@ -60,13 +69,16 @@ Player.prototype.handleInput = function(keyCode) {
       this.y = this.y + 84;
       break;
   }
-}
+};
 Player.prototype.update = function() {
-
-}
+  if(_killed) {
+    this.x = 200;
+    this.y = 400;
+  }
+};
 Player.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+};
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -85,6 +97,9 @@ var instantiate = (function() {
   }
 })();
 
+var checkCollisions = function() {
+
+}
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keydown', function(e) {
