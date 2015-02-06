@@ -64,16 +64,16 @@ var Player = function() {
 Player.prototype.handleInput = function(keyCode) {
   switch(keyCode) {
     case 'left':
-      this.x = this.x - 100;
+      if(this.x > 90) {this.x = this.x - 100;}
       break;
     case 'up':
       this.y = this.y - 84;
       break;
     case 'right':
-      this.x = this.x + 100;
+      if(this.x < 400) {this.x = this.x + 100;}
       break;
     case 'down':
-      this.y = this.y + 84;
+      if(this.bottom() < 520) {this.y = this.y + 84;}
       break;
   }
 };
