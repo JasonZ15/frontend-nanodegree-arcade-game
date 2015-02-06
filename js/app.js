@@ -81,13 +81,13 @@ Player.prototype.update = function() {
   if(this.y < 60) {
     this._killed = true;
   };
+};
+Player.prototype.render = function() {
   if(this._killed) {
     this.x = 200;
     this.y = 400;
     this._killed = false;
-  }
-};
-Player.prototype.render = function() {
+  };
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
