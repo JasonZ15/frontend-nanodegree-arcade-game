@@ -78,6 +78,9 @@ Player.prototype.handleInput = function(keyCode) {
   }
 };
 Player.prototype.update = function() {
+  if(this.y < 60) {
+    this._killed = true;
+  };
   if(this._killed) {
     this.x = 200;
     this.y = 400;
