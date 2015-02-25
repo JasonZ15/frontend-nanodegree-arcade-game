@@ -1,31 +1,46 @@
-// Enemies our player must avoid
+/**
+ * The Enemy class. Enemies our player must avoid.
+ * @constructor
+ * @param {string} spd - The moving speed of an enemy.
+ * @param {string} ln - Which line of tiles an enemy is on.
+ */
 var Enemy = function(spd, ln) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
     this.enemyLines = [50, 140, 230];
+    // x position of an enemy.
     this.x = -300;
+    // y position of an enemy. when number of enemies bigger than the number of tile lines then put the enemy on a random line
     if (ln > 2) {
       this.y = this.enemyLines[Math.floor(Math.random()*this.enemyLines.length)];
     } else {
       this.y = this.enemyLines[ln];
     };
+    // one enemy area on the canvas
     this.top = function() {return this.y + 79;};
     this.right = function() {return this.x + 95;};
     this.bottom = function() {return this.y + 138;};
     this.left = function() {return this.x + 7;};
-    this.speed = spd;
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    // set an enemy's speed
+    this.speed = spd;
 }
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
+/**
+ * A method of enemy objects. Update the enemy's position, required method for game
+ * @method update - update enemy object for every frame.
+ * @param {string} dt - a time delta between ticks.
+ */
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+
+    // enemy moving across the field at its speed.
     this.x = this.x + this.speed * dt;
+    // when an enemy moves out of the field assign it different speed and line. and move it back to the left of the field.
     if(this.x > 520) {
       this.x = -160;
       this.speed = Math.round(Math.random() * 400);
@@ -34,7 +49,7 @@ Enemy.prototype.update = function(dt) {
       }
       this.y = this.enemyLines[Math.floor(Math.random()*this.enemyLines.length)];
     };
-
+    // when an enemy and the play collides, kill the player.
     if(!(this.top() > player.bottom() ||
          this.left() > player.right() ||
          this.bottom() < player.top() ||
@@ -43,30 +58,46 @@ Enemy.prototype.update = function(dt) {
     };
 }
 
-// Draw the enemy on the screen, required method for game
+/**
+ * A method of enemy objects. Draw the enemy on the screen, required method for game.
+ * @method render - render enemy object onto the canvas for every frame.
+ */
 Enemy.prototype.render = function() {
+    // drawImage from the top left corner
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+/**
+ * The Player class. Our player must avoid all enemies.
+ * @constructor
+ */
 var Player = function() {
+  // start position of the player.
   this.x = 200;
   this.y = 400;
+  // the player area on the canvas. it depends on the image char-boy.png
   this.top = function() {return this.y + 64;};
   this.right = function() {return this.x + 84;};
   this.bottom = function() {return this.y + 138;};
   this.left = function() {return this.x + 17;};
   this.sprite = 'images/char-boy.png';
+  // the life of the player. He can die.
   _killed = false;
 };
-Player.prototype.handleInput = function(keyCode) {
-  switch(keyCode) {
+
+/**
+ * A method of the player object.
+ * @method handleInput - take keyboard input and update the player's properties.
+ * @param {string} keyArrow - keyboard arrows.
+ */
+Player.prototype.handleInput = function(keyArrow) {
+  // move the player. also giving the controlls constraints so that player can't move out of game area.
+  switch(keyArrow) {
     case 'left':
       if(this.x > 90) {this.x = this.x - 100;}
       break;
     case 'up':
+      // player can move into the ocean and die.
       this.y = this.y - 84;
       break;
     case 'right':
@@ -77,12 +108,22 @@ Player.prototype.handleInput = function(keyCode) {
       break;
   }
 };
+/**
+ * A method of the player object.
+ * @method update - update the player object for every frame.
+ */
 Player.prototype.update = function() {
+  // player moves into the ocean and die
   if(this.y < 60) {
     this._killed = true;
   };
 };
+/**
+ * A method of the player object.
+ * @method render - render the player object onto the canvas for every frame.
+ */
 Player.prototype.render = function() {
+  // draw the player back at the starting point after he dies
   if(this._killed) {
     this.x = 200;
     this.y = 400;
@@ -94,13 +135,16 @@ Player.prototype.render = function() {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+/** @global */
 var allEnemies = [];
 var player = new Player();
 
 var instantiate = (function() {
   var numEnemies = 4;
+  // construct each enemy object
   for (var i = 0; i < numEnemies; i++) {
     var mySpd = 0;
+    // generate a random speed that is bigger than 80
     while (mySpd < 80) {
       var mySpd = Math.round(Math.random() * 400);
     }
