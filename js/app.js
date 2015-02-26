@@ -29,8 +29,8 @@ var Enemy = function(spd, ln) {
 }
 
 /**
- * A method of enemy objects. Update the enemy's position, required method for game
- * @method update - update enemy object for every frame.
+ * A method for enemy objects. Update the enemy's position every frame, required method for game.
+ * @method Enemy#update
  * @param {string} dt - a time delta between ticks.
  */
 Enemy.prototype.update = function(dt) {
@@ -60,7 +60,7 @@ Enemy.prototype.update = function(dt) {
 
 /**
  * A method of enemy objects. Draw the enemy on the screen, required method for game.
- * @method render - render enemy object onto the canvas for every frame.
+ * @method Enemy#render
  */
 Enemy.prototype.render = function() {
     // drawImage from the top left corner
@@ -68,7 +68,7 @@ Enemy.prototype.render = function() {
 }
 
 /**
- * The Player class. Our player must avoid all enemies.
+ * The Player class. creates a player. Our player must avoid all enemies.
  * @constructor
  */
 var Player = function() {
@@ -86,8 +86,8 @@ var Player = function() {
 };
 
 /**
- * A method of the player object.
- * @method handleInput - take keyboard input and update the player's properties.
+ * A method of the player object. take keyboard input and update the player's properties.
+ * @method Player#handleInput
  * @param {string} keyArrow - keyboard arrows.
  */
 Player.prototype.handleInput = function(keyArrow) {
@@ -109,8 +109,8 @@ Player.prototype.handleInput = function(keyArrow) {
   }
 };
 /**
- * A method of the player object.
- * @method update - update the player object for every frame.
+ * A method of the player object. update the player object for every frame.
+ * @method Player#update
  */
 Player.prototype.update = function() {
   // player moves into the ocean and die
@@ -119,8 +119,8 @@ Player.prototype.update = function() {
   };
 };
 /**
- * A method of the player object.
- * @method render - render the player object onto the canvas for every frame.
+ * A method of the player object. render the player object onto the canvas for every frame.
+ * @method Player#render
  */
 Player.prototype.render = function() {
   // draw the player back at the starting point after he dies
@@ -135,12 +135,11 @@ Player.prototype.render = function() {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-/** @global */
-var allEnemies = [];
-var player = new Player();
-
-var instantiate = (function() {
-  var numEnemies = 4;
+/**
+ * @type {Enemy[]}
+ */
+var allEnemies = (function (numEnemies) {
+  var myArray = [];
   // construct each enemy object
   for (var i = 0; i < numEnemies; i++) {
     var mySpd = 0;
@@ -148,9 +147,12 @@ var instantiate = (function() {
     while (mySpd < 80) {
       var mySpd = Math.round(Math.random() * 400);
     }
-    allEnemies.push(new Enemy(mySpd, i));
+    myArray.push(new Enemy(mySpd, i));
   }
-})();
+  return myArray;
+})(4);
+/** @type {Player} */
+var player = new Player();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
