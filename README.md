@@ -1,6 +1,3 @@
-frontend-nanodegree-arcade-game
-===============================
+#frontend-nanodegree-arcade-game
+Use the keyboard arrow keys to move the player back and forth across the road and avoid all the bugs.
 
-Students should use this rubric: https://www.udacity.com/course/viewer#!/c-ud015/l-3072058665/m-3072588797
-
-for self-checking their submission.
